@@ -2,6 +2,7 @@
 <%@ page import="utils.UrlUtils" %>
 <%@ page import="model.Player" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="utils.JspUtils" %>
 
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!doctype html>
@@ -26,15 +27,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link <%=request.getServletPath().equals(UrlUtils.HOME)?"active" : ""%>"
-                       aria-current="page" href="<%=request.getContextPath() +UrlUtils.GAME%>">Home</a>
+                    <a class="nav-link <%=request.getServletPath().equals(JspUtils.HOME)?"active" : ""%>"
+                       aria-current="page" href="<%=request.getContextPath() +UrlUtils.HOME%>">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%=request.getServletPath().equals(UrlUtils.GAME)?"active" : ""%>"
+                    <a class="nav-link <%=request.getServletPath().equals(JspUtils.GAME)?"active" : ""%>"
                        href="<%=request.getContextPath() +UrlUtils.GAME%>">Game</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%=request.getServletPath().equals(UrlUtils.RANKING)?"active" : ""%>"
+                    <a class="nav-link <%=request.getServletPath().equals(JspUtils.RANK)?"active" : ""%>"
                        href="<%=request.getContextPath() +UrlUtils.RANKING%>">Rank</a>
                 </li>
             </ul>
