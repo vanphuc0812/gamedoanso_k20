@@ -15,6 +15,7 @@ public class AbtractRepository<T> {
         }
     }
 
+    
     public List<T> executeQueryList(JDBCExecute<List<T>> processor) {
         try (Connection connection = MySqlConnection.getConnection()) {
             return processor.process(connection);

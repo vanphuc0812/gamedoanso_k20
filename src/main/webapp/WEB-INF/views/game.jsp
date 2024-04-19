@@ -1,9 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="utils.UrlUtils" %>
 <%@ page import="model.Player" %>
 <%@ page import="model.Game" %>
-<%@ page import="model.Guess" %>
-<%@ page import="java.util.Collections" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!doctype html>
 <html lang="en">
@@ -17,11 +15,27 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<nav class="navbar bg-body-tertiary">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <h5>Game đoán số</h5>
-        </a>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="<%=request.getContextPath() + UrlUtils.HOME%>">Game Đoán Số</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link " aria-current="page"
+                       href="<%=request.getContextPath() +UrlUtils.HOME%>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="<%=request.getContextPath() +UrlUtils.GAME%>">Game</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<%=request.getContextPath() +UrlUtils.RANKING%>">Rank</a>
+                </li>
+            </ul>
+        </div>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -29,7 +43,7 @@
                 <%= ((Player) session.getAttribute("currentuser")).getUsername()%>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="<%=request.getContextPath() + UrlUtils.LOGOUT%>">Logout</a></li>
+                <li><a class="dropdown-item" href="<%=request.getContextPath() + UrlUtils.LOGOUT%>">Logout</a></li>
             </ul>
         </div>
     </div>

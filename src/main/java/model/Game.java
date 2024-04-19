@@ -19,7 +19,8 @@ public class Game {
     private LocalDateTime endTime;
     private int isComplete;
     private int isActive;
-    private int playTime;
+    private long playTime;
+    private int guessTimes;
 
     public Game(String username) {
         this.id = "GAME" + String.format("%04d", generateRamdomNumber(9999));
@@ -41,13 +42,23 @@ public class Game {
         this.guessList = new ArrayList<>();
     }
 
-    public Game(String id, int targetNumber, String username, LocalDateTime startTime, LocalDateTime endTime, int playtime) {
+    public Game(String id, int targetNumber, String username, LocalDateTime startTime, LocalDateTime endTime, long playtime) {
         this.id = id;
         this.targetNumber = targetNumber;
         this.username = username;
         this.startTime = startTime;
         this.endTime = endTime;
         this.playTime = playtime;
+        this.guessList = new ArrayList<>();
+    }
+
+    public Game(int guessTimes, String id, int targetNumber, String username, LocalDateTime startTime, LocalDateTime endTime) {
+        this.id = id;
+        this.targetNumber = targetNumber;
+        this.username = username;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.guessTimes = guessTimes;
         this.guessList = new ArrayList<>();
     }
 
@@ -59,8 +70,7 @@ public class Game {
     }
 
     public List<Guess> getReverseGuessList() {
-        List<Guess> reverseList = new ArrayList<>();
-        reverseList.addAll(guessList);
+        List<Guess> reverseList = new ArrayList<>(guessList);
         Collections.reverse(reverseList);
 
         return reverseList;

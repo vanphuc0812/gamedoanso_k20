@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameRepository extends AbtractRepository<Game> {
     public void save(Game game) {
@@ -51,12 +53,43 @@ public class GameRepository extends AbtractRepository<Game> {
         }));
     }
 
+    public List<Game> loadAllGameByUsername(String username) {
+        return executeQueryList((connection -> {
+            List<Game> gameList = new ArrayList<>();
+            String sql = "SELECT * FROM game where username = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String gameID = resultSet.getString("gameID");
+                int targetNumber = resultSet.getInt("targetNumber");
+                LocalDateTime startTime = resultSet.getTimestamp("startTime").toLocalDateTime();
+                Timestamp endTimeInTimestamp = resultSet.getTimestamp("endTime");
+                LocalDateTime endTime = endTimeInTimestamp == null ? null : endTimeInTimestamp.toLocalDateTime();
+                int isComplete = resultSet.getInt("isComplete");
+                int isActive = resultSet.getInt("isActive");
+                gameList.add(new Game(gameID, targetNumber, username, startTime, endTime, isComplete, isActive));
+            }
+            return gameList;
+        }));
+    }
+
     //set other game to isActive = 0
     public void deactiveAllGame(String username) {
         executeUpdate((connection -> {
             String sql = "UPDATE game SET isActive = 0 WHERE username = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
+            statement.executeUpdate();
+            return null;
+        }));
+    }
+
+    public void activeGameByGameID(String gameID) {
+        executeUpdate((connection -> {
+            String sql = "UPDATE game SET isActive = 1 WHERE gameID = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, gameID);
             statement.executeUpdate();
             return null;
         }));

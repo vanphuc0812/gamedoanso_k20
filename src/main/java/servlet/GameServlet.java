@@ -14,22 +14,22 @@ import utils.UrlUtils;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns = {UrlUtils.GAME, UrlUtils.NEW_GAME})
+@WebServlet(urlPatterns = {UrlUtils.GAME, UrlUtils.NEW_GAME, UrlUtils.GAMEID})
 public class GameServlet extends HttpServlet {
     GameService gameService = new GameService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Player player = (Player) req.getSession().getAttribute("currentuser");
-        switch (req.getServletPath()) {
-            case UrlUtils.GAME:
-                Game game = gameService.loadGame(player.getUsername());
-                req.setAttribute("game", game);
-                req.getRequestDispatcher(JspUtils.GAME).forward(req, resp);
-                break;
-        }
-
+        Game game;
+        String[] paths = req.getRequestURI().split("/");
+        String gameID = paths.length > 3 ? paths[3] : "";
+        System.out.println(gameID);
+        game = gameService.loadGame(player.getUsername(), gameID);
+        req.setAttribute("game", game);
+        req.getRequestDispatcher(JspUtils.GAME).forward(req, resp);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

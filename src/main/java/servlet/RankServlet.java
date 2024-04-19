@@ -19,8 +19,11 @@ public class RankServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Game> listRank = rankService.getTop(10);
-        req.setAttribute("listRank", listRank);
+        List<Game> listRankByPlayTime = rankService.getTopByPlayTime(10);
+        List<Game> listRankByGuessTime = rankService.getTopByGuessTimes(10);
+
+        req.setAttribute("listRankByPlayTime", listRankByPlayTime);
+        req.setAttribute("listRankByGuessTime", listRankByGuessTime);
         req.getRequestDispatcher(JspUtils.RANK).forward(req, resp);
     }
 }

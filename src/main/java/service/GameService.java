@@ -19,8 +19,17 @@ public class GameService {
         return newGame;
     }
 
-    public Game loadGame(String username) {
-        Game game = gameRepository.loadActiveGameByUsername(username);
+    public Game loadGame(String username, String gameID) {
+        Game game;
+        if (gameID != null && !gameID.isEmpty()) {
+            game = gameRepository.loadGameByGameID(gameID);
+            if (game != null) {
+                gameRepository.deactiveAllGame(username);
+                gameRepository.activeGameByGameID(game.getId());
+            }
+        } else {
+            game = gameRepository.loadActiveGameByUsername(username);
+        }
         if (game == null) return createGame(username);
         else {
             List<Guess> oldGuessList = guessRepository.getGuessListByGameID(game.getId());
@@ -52,7 +61,10 @@ public class GameService {
         Guess guess = new Guess(guessNumber, gameID, guessResult);
         guessRepository.save(guess);
         game.getGuessList().add(guess);
-
         return game;
+    }
+
+    public List<Game> loadAllGameByUsername(String username) {
+        return gameRepository.loadAllGameByUsername(username);
     }
 }
